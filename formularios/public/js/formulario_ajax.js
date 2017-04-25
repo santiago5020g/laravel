@@ -16,14 +16,14 @@ $(document).ready(function () {
                 * servidor.
                 * */
                 // btnEnviar.text("Enviando"); Para button <button></button>
-                btnEnviar.val("Guardando"); // Para input de tipo button
+                //btnEnviar.val("Guardando"); // Para input de tipo button
                 btnEnviar.attr("disabled","disabled");
             },
             complete:function(data){
                 /*
                 * Se ejecuta al termino de la petición
                 * */
-                btnEnviar.val("Guardar");
+                //btnEnviar.val("Guardar");
                 btnEnviar.removeAttr("disabled");
             },
             success: function(data){

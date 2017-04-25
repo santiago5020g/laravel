@@ -26,4 +26,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    protected $table = 'smbd_etl_extract';
+    protected $primaryKey = 'cedula';
+    public $timestamps = false;
+
 }

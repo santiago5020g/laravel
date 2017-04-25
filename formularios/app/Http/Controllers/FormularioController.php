@@ -9,6 +9,7 @@ use App\Cargo;
 use App\Ttrfield;
 use App\Ttrvalue;
 use App\TtrconfigField;
+use Illuminate\Support\Facades\Auth;
 
 
 class FormularioController extends Controller
@@ -20,6 +21,14 @@ class FormularioController extends Controller
      */
     public function index()
     {
+
+        if((!Auth::viaRemember() && !Auth::check()) || (!Auth::User()->where('cargo' , 'ENTRENADOR COMERCIAL')->exists() && 
+        !Auth::User()->where('cargo' , 'ADMINISTRADDOR')->exists()))
+        {
+            return redirect('ingreso');
+        }
+
+
         $formularios = Ttrform::all();
         return view("formulario.index",array('formularios'=>$formularios));
     }
@@ -31,6 +40,12 @@ class FormularioController extends Controller
      */
     public function create()
     {
+        if((!Auth::viaRemember() && !Auth::check()) || (!Auth::User()->where('cargo' , 'ENTRENADOR COMERCIAL')->exists() && 
+        !Auth::User()->where('cargo' , 'ADMINISTRADDOR')->exists()))
+        {
+            return redirect('ingreso');
+        }
+
         $cargos = Cargo::all();
         return view("formulario.create",array('cargos'=>$cargos));
     }
@@ -80,7 +95,7 @@ class FormularioController extends Controller
         $formulario->created_at = date('Y-m-d');
         $formulario->modified_at = date('Y-m-d');
         $formulario->active = $request->formulario_activo;
-        $formulario->smbdEtlExtract_cedula = '1152434796';
+        $formulario->smbdEtlExtract_cedula = Auth::User()->cedula;
         $formulario->save();
         $cargos = $request->cargos;
         $formulario->cargos()->attach($cargos);

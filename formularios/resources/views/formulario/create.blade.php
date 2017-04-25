@@ -107,5 +107,4 @@
 
 @section('footer_scripts')
 <script src="{{ asset('js/form.js?v=3') }}"></script>
-<script src="{{ asset('js/formulario_ajax.js?v=1') }}"></script>
 @stop

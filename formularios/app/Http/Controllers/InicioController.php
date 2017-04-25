@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InicioController extends Controller
 {
@@ -13,7 +14,13 @@ class InicioController extends Controller
      */
     public function index()
     {
-        //
+        if((!Auth::viaRemember() && !Auth::check()) || (!Auth::User()->where('cargo' , 'ENTRENADOR COMERCIAL')->exists() && 
+        !Auth::User()->where('cargo' , 'ADMINISTRADDOR')->exists()))
+        {
+            return redirect('ingreso');
+        }
+
+        return view("inicio.index");
     }
 
     /**

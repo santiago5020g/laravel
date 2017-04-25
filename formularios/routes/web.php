@@ -17,3 +17,7 @@ Route::get('/', function () {
 
 
 Route::resource('formularios', 'FormularioController');
+Route::resource('/', 'InicioController');
+Route::post('autenticar', 'LogueoController@authenticate');
+Route::get('ingreso', 'LogueoController@index');
+Route::get('cerrar_sesion', 'LogueoController@cerrar_sesion');
