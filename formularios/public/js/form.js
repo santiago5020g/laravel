@@ -16,7 +16,7 @@ function agregar_campos()
 	//cambiar el titulo h3 del ultimo campo copiado
 	$("#campo"+numeral_campo+ " h3:first").html('<i style="cursor: pointer;" onclick="eliminar_campo(this)" class="fa fa-times" aria-hidden="true"></i>  campo'+numeral_campo);
 	//asociar el valor al campo al que pertenece
-	$("#campo"+numeral_campo+ " input[name=valores_campo]").attr("name","valores_campo["+numeral_campo+"][]");
+	$("#campo"+numeral_campo+ " input[name=valores_campo]").attr("name","valores_campo[]["+numeral_campo+"]");
 
 }
 
@@ -30,7 +30,7 @@ function agregar_valores(objeto)
   var regexp = /[0-9]+/;
   var numeral_campo = idcampo.match(regexp);
   //crear el elemento
-  var input = '<li class="fa fa-trash" style="cursor: pointer;" onclick="eliminar_valor(this)"></li> <input type="text" name="valores_campo['+numeral_campo+'][]" placeholder="Ej: Chile" class="form-control">';
+  var input = '<li class="fa fa-trash" style="cursor: pointer;" onclick="eliminar_valor(this)"></li> <input type="text" name="valores_campo[]['+numeral_campo+']" placeholder="Ej: Chile" class="form-control">';
   $("#"+idcampo+" .valores").append(input);
 }
 

@@ -79,7 +79,7 @@
 						<label>Valores del campo</label>
 						<div class="valores">
 							<li class="fa fa-trash" style="cursor: pointer;" onclick="eliminar_valor(this)"></li>
-							<input type="text" name="valores_campo[1][]" placeholder="Ej: Chile" class="form-control">
+							<input type="text" name="valores_campo[][1]" placeholder="Ej: Chile" class="form-control">
 						</div>
 						<a style="cursor: pointer;" onclick="agregar_valores(this)"  class="btn btn-warning">Agregar mas valores</a>
 					</div>
@@ -106,6 +106,6 @@
 
 
 @section('footer_scripts')
-<script src="{{ asset('js/form.js?v=2') }}"></script>
-<script src="{{ asset('js/formulario_ajax.js') }}"></script>
+<script src="{{ asset('js/form.js?v=3') }}"></script>
+<script src="{{ asset('js/formulario_ajax.js?v=1') }}"></script>
 @stop

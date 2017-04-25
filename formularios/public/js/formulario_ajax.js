@@ -31,9 +31,16 @@ $(document).ready(function () {
                 * Se ejecuta cuando termina la petición y esta ha sido
                 * correcta
                 * */
-                $("#mensaje").attr("class","alert alert-danger");
-                $("#mensaje").html(data);
+                if(data!= "Guardado")
+                {
+                    $("#mensaje").attr("class","alert alert-danger");
+                    $("#mensaje").html(data);
+                    return;
+                }
 
+                $("#mensaje").attr("class","alert alert-success");
+                $("#mensaje").html(data);
+                
             },
             error: function(data){
                 /*

@@ -85,9 +85,8 @@ class FormularioController extends Controller
         $cargos = $request->cargos;
         $formulario->cargos()->attach($cargos);
         
-        
-        
-
+        //necesario para los valores asociados al campo
+        $acumulador = 1;
         //pueden ser varios fields entonces se va guardando uno por uno
         for ($i=0; $i <count($request->nombre_campo) ; $i++) 
         { 
@@ -106,7 +105,17 @@ class FormularioController extends Controller
             $ttrconfigField->save();
             //proceso para guardar en values del campo
             //los valores asociados al campo
-            $valores_formulario_campo = array_column($request->valores_campo, ($i+1));
+            //array que guarda los valores del campo asociados a un campo
+            $valores_formulario_campo = array();
+            $cantidad_valores_del_campo = count($valores_formulario_campo);
+
+            while( $cantidad_valores_del_campo == 0 )
+            {
+                //un ejemplo es que se puede tener campo1 y campo 3. Se valida para que no coja el campo2 porque no existe. No obtiene la columna del campo 2
+                $valores_formulario_campo = array_column($request->valores_campo, ($acumulador));
+                $cantidad_valores_del_campo = count($valores_formulario_campo);
+                $acumulador +=1;
+            }
             //validar que el valor pertenezca al campo
             
             for ($i2=0; $i2 <count($valores_formulario_campo) ; $i2++) 
