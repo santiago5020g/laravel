@@ -294,5 +294,9 @@
     
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('build/js/custom.min.js') }}"></script>
+
+    @yield('footer_scripts')
+
+
   </body>
 </html>

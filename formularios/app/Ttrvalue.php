@@ -9,4 +9,13 @@ class Ttrvalue extends Model
     protected $table = 'ttrvalues';
     protected $primaryKey = 'idttrvalues';
     public $timestamps = false;
+
+
+
+    public function field()
+    {
+        return $this->belongsTo('App\Ttrfield','idttrfieldsf');
+    }
+
+
 }

@@ -18,4 +18,11 @@ class Ttrform extends Model
     }
 
 
+    public function cargos()
+    {
+        return $this->belongsToMany('App\Cargo','ttrform_ttrcargo','idttrform','idttrcargo');
+    }
+
+
+
 }

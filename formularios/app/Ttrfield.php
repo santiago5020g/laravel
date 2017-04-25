@@ -18,4 +18,11 @@ class Ttrfield extends Model
     }
 
 
+    public function formulario()
+    {
+        return $this->belongsTo('App\Ttrform','ttrform_id');
+    }
+
+
+
 }

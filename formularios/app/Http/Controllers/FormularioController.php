@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use Illuminate\Http\Request;
 use App\Ttrform;
+use App\Cargo;
+use App\Ttrfield;
+use App\Ttrvalue;
+use App\TtrconfigField;
+
 
 class FormularioController extends Controller
 {
@@ -25,7 +31,8 @@ class FormularioController extends Controller
      */
     public function create()
     {
-        return view("formulario.create");
+        $cargos = Cargo::all();
+        return view("formulario.create",array('cargos'=>$cargos));
     }
 
     /**
@@ -36,7 +43,87 @@ class FormularioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        //mensaje personalizado
+        $messages = [
+        'required' => ':attribute es requerido.',
+        ];
+
+        //validador
+         $validator = Validator::make($request->all(), [
+            'nombre_formulario' => 'required',
+            'formulario_activo' => 'required',
+            'cargos' => 'required|array|min:1',
+            'nombre_campo.*' => 'required',
+            'tipo_campo.*' => 'required',
+            'campo_activo.*' => 'required',
+            'campo_requerido.*' => 'required',
+        ],$messages);
+
+
+         //mostrar mensajes de error
+        if ($validator->fails()) 
+        {
+            $errors = $validator->errors();
+            foreach ($errors->all() as $message) {
+               echo "<li>".$message."</li>";
+            }
+            echo "<br>";
+            
+            return;
+        }
+       
+      
+
+        $formulario = new Ttrform();
+        $formulario->name = $request->nombre_formulario;
+        $formulario->created_at = date('Y-m-d');
+        $formulario->modified_at = date('Y-m-d');
+        $formulario->active = $request->formulario_activo;
+        $formulario->smbdEtlExtract_cedula = '1152434796';
+        $formulario->save();
+        $cargos = $request->cargos;
+        $formulario->cargos()->attach($cargos);
+        
+        
+        
+
+        //pueden ser varios fields entonces se va guardando uno por uno
+        for ($i=0; $i <count($request->nombre_campo) ; $i++) 
+        { 
+            //guardar en ttrfield
+            $ttrfield = new Ttrfield();
+            $ttrfield->ttrform_id = $formulario->idttrform;
+            $ttrfield->label_name = $request->nombre_campo[$i];
+            $ttrfield->typefield = $request->tipo_campo[$i];
+            $ttrfield->active = $request->campo_activo[$i];
+            //guardar en field
+            $ttrfield->save();
+            //guardar en config field
+            $ttrconfigField = new TtrconfigField();
+            $ttrconfigField->ttrfield_id = $ttrfield->idttrfieldsf;
+            $ttrconfigField->required = $request->campo_requerido[$i];
+            $ttrconfigField->save();
+            //proceso para guardar en values del campo
+            //los valores asociados al campo
+            $valores_formulario_campo = array_column($request->valores_campo, ($i+1));
+            //validar que el valor pertenezca al campo
+            
+            for ($i2=0; $i2 <count($valores_formulario_campo) ; $i2++) 
+            {
+                $ttrvalue = new Ttrvalue();
+                $ttrvalue->idttrfieldsf = $ttrfield->idttrfieldsf;
+                $ttrvalue->value = $valores_formulario_campo[$i2];
+                $ttrvalue->active = 1;
+                $ttrvalue->save();
+            }
+
+        }
+
+        
+          
+         echo "Guardado";
+
     }
 
     /**
