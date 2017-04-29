@@ -14,7 +14,7 @@ class TtrconfigField extends Model
 
     public function field()
     {
-        return $this->belongsTo('App\Ttrfield','idttrfieldsf');
+        return $this->belongsTo('App\Ttrfield','ttrfield_id');
     }
 
 }

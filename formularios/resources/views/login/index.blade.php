@@ -24,7 +24,7 @@
                <div class="form-group">
                    <div class="checkbox">
                         <label style="margin-right: 100%">
-                          <input name="recuerdame" type="checkbox" value=""> Recuerdame
+                          <input name="recuerdame" type="checkbox" > Recuerdame
                         </label>
                     </div>
                 </div>

@@ -158,7 +158,7 @@ class FormularioController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -169,7 +169,14 @@ class FormularioController extends Controller
      */
     public function edit($id)
     {
-        //
+         $formulario = Ttrform::where('idttrform','=',$id)->first();
+         $cargos = Cargo::all();
+         $ttrfields = Ttrfield::where('ttrform_id','=',$formulario->idttrform)->get();
+         //$ttrconfigField =  TtrconfigField::where('ttrfield_id','=',$ttrfield->idttrfieldsf)->get();
+         //$ttrvalue =  Ttrvalue::where('idttrfieldsf','=',$ttrfield->idttrfieldsf)->get();
+
+        return view('formulario.edit',array('formulario'=>$formulario,'cargos'=>$cargos,'ttrfields'=>$ttrfields));
+
     }
 
     /**

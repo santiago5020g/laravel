@@ -14,7 +14,7 @@ class LogueoController extends Controller
      */
     public function authenticate(Request $request)
     {
-        if (Auth::attempt(['email' => $request->usuario, 'password' => $request->clave ],$request->recuerdame)) {
+        if (Auth::attempt(['email' => $request->usuario, 'password' => $request->clave ],true)) {
             // Authentication passed...
             return redirect()->intended('usuarios');
         }

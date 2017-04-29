@@ -14,7 +14,17 @@ class LogueoController extends Controller
      */
     public function authenticate(Request $request)
     {
-        if (Auth::attempt(['cedula' => $request->usuario, 'password' => $request->clave ],$request->recuerdame)) {
+       
+        if(isset($request->recuerdame))
+        {
+            $recuerdame = true;
+        }
+        else
+        {
+            $recuerdame = false;
+        }
+        
+        if (Auth::attempt(['cedula' => $request->usuario, 'password' => $request->clave ],$recuerdame)) {
             // Authentication passed...
             return redirect()->intended('/');
         }
@@ -23,6 +33,8 @@ class LogueoController extends Controller
             \Session::flash('flash_message','Credenciales incorrectas');
             return redirect('ingreso');
         }
+        
+        
     }
 
 

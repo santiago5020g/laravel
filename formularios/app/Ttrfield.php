@@ -17,6 +17,11 @@ class Ttrfield extends Model
         return $this->hasMany('App\Ttrvalue');
     }
 
+    public function config()
+    {
+        return $this->hasOne('App\TtrconfigField','ttrfield_id');
+    }
+
 
     public function formulario()
     {
