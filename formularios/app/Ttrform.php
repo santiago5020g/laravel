@@ -14,7 +14,7 @@ class Ttrform extends Model
 
     public function fields()
     {
-        return $this->hasMany('App\Ttrfield');
+        return $this->hasMany('App\Ttrfield','ttrform_id');
     }
 
 

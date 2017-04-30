@@ -14,7 +14,7 @@ class Ttrfield extends Model
 
     public function values()
     {
-        return $this->hasMany('App\Ttrvalue');
+        return $this->hasMany('App\Ttrvalue','idttrfieldsf');
     }
 
     public function config()

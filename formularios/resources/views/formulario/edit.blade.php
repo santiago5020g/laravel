@@ -16,7 +16,7 @@
 </div>
 <div class="col-md-2"></div>
 <div class="col-md-8"> 
-	<form id="formulario1" action="{{ url('formularios') }}" class="form-horizontal" method="POST">
+	<form id="formulario1" action="{{ url('/formularios/'.$formulario->idttrform) }}"   class="form-horizontal" method="POST">
 		<div class="form-group">
 			<label>Nombre formulario</label>
 			<input class="form-control" type="text" name="nombre_formulario" value="{{ $formulario->name }}" placeholder="Ej: Encuesta de satisfaccion" >
@@ -46,9 +46,10 @@
 		<h2>Campos del formulario</h2>
 		<div id="campos">
 		  	<?php $i=0; ?>
-			@foreach ($ttrfields as $ttrfield)
+			@foreach ($formulario->fields as $ttrfield)
 			    <?php $i++; ?>
 				<div id="campo{{ $i }}" class="panel panel-primary">
+					<input type="hidden" name="fieldid[]" value="{{ $ttrfield->idttrfieldsf }}">
 					<div class="panel-heading">
 	    				<h3 class="panel-title">
 	    					<i style="cursor: pointer;" onclick="eliminar_campo(this)" class="fa fa-times" aria-hidden="true"></i> campo{{ $i }}
@@ -88,8 +89,11 @@
 						<div class="form-group">
 							<label>Valores del campo</label>
 							<div class="valores">
-								<li class="fa fa-trash" style="cursor: pointer;" onclick="eliminar_valor(this)"></li>
-								<input type="text" name="valores_campo[][1]" placeholder="Ej: Chile" class="form-control">
+								@foreach ($ttrfield->values as $valor)
+									<li class="fa fa-trash" style="cursor: pointer;" onclick="eliminar_valor(this)"></li>
+									<input type="text" value="{{ $valor->value }}" name="valores_campo[][{{ $i }}]" placeholder="Ej: Chile" class="form-control">
+									<input data-bor="si" type="hidden" name="valores_id[][{{ $i }}]" value="{{ $valor->idttrvalues }}">
+								@endforeach
 							</div>
 							<a style="cursor: pointer;" onclick="agregar_valores(this)"  class="btn btn-warning">Agregar mas valores</a>
 						</div>
@@ -110,6 +114,7 @@
 
 
 	<input type="hidden" name="_token" value="{{ csrf_token() }}">
+	<input name="_method" type="hidden" value="PATCH">
 	</form>
 </div>
 <div class="col-md-2"></div>
@@ -117,5 +122,5 @@
 
 
 @section('footer_scripts')
-<script src="{{ asset('js/form.js?v=3') }}"></script>
+<script src="{{ asset('js/form.js?v=4') }}"></script>
 @stop

@@ -48,5 +48,10 @@ function eliminar_campo(objeto)
 function eliminar_valor(objeto)
 {
 	$(objeto).fadeOut( function() { $(this).next().remove(); });
+	var hidden = $(objeto).next().next().attr("data-bor");
+	if(hidden == "si")
+	{
+		$(objeto).next().next().remove();
+	}
 	$(objeto).fadeOut( function() { $(this).remove(); });
 }

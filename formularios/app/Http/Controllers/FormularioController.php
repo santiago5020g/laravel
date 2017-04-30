@@ -169,14 +169,14 @@ class FormularioController extends Controller
      */
     public function edit($id)
     {
-         $formulario = Ttrform::where('idttrform','=',$id)->first();
+         $formulario = Ttrform::with(['fields' => function ($query) {
+         $query->where('active', '=', '1');
+          }])
+         ->where('idttrform','=',$id)
+         ->first();         
          $cargos = Cargo::all();
-         $ttrfields = Ttrfield::where('ttrform_id','=',$formulario->idttrform)->get();
-         //$ttrconfigField =  TtrconfigField::where('ttrfield_id','=',$ttrfield->idttrfieldsf)->get();
-         //$ttrvalue =  Ttrvalue::where('idttrfieldsf','=',$ttrfield->idttrfieldsf)->get();
-
-        return view('formulario.edit',array('formulario'=>$formulario,'cargos'=>$cargos,'ttrfields'=>$ttrfields));
-
+         return view('formulario.edit',array('formulario'=>$formulario,'cargos'=>$cargos));   
+         
     }
 
     /**
@@ -188,7 +188,140 @@ class FormularioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //mensaje personalizado
+        $messages = [
+        'required' => ':attribute es requerido.',
+        ];
+
+        //validador
+         $validator = Validator::make($request->all(), [
+            'nombre_formulario' => 'required',
+            'formulario_activo' => 'required',
+            'cargos' => 'required|array|min:1',
+            'nombre_campo.*' => 'required',
+            'tipo_campo.*' => 'required',
+            'campo_activo.*' => 'required',
+            'campo_requerido.*' => 'required',
+        ],$messages);
+
+
+        $formulario = Ttrform::where('idttrform','=',$id)->first();
+        $formulario->name = $request->nombre_formulario;
+        $formulario->modified_at = date('Y-m-d');
+        $formulario->active = $request->formulario_activo;
+        $formulario->smbdEtlExtract_cedula = Auth::User()->cedula;
+        $formulario->save();
+        $cargos = $request->cargos;
+        $formulario->cargos()->detach($formulario->cargos);
+        $formulario->cargos()->attach($cargos);
+
+
+
+
+        for ($i=0; $i <count($request->nombre_campo) ; $i++)
+        for ($i2=0; $i2 <count($request->nombre_campo[$i]) ; $i2++)  
+
+        //necesario para los valores asociados al campo
+        $acumulador = 1;
+        $campos = "";
+        //pueden ser varios fields entonces se va guardando uno por uno
+        for ($i=0; $i <count($request->nombre_campo) ; $i++) 
+        { 
+            //guardar en ttrfield
+            $ttrfield = new Ttrfield();
+            if(isset($request->fieldid[$i]))
+            {
+                $ttrfield = Ttrfield::where('idttrfieldsf','=',$request->fieldid[$i])->first();
+            }
+            $ttrfield->ttrform_id = $formulario->idttrform;
+            $ttrfield->label_name = $request->nombre_campo[$i];
+            $ttrfield->typefield = $request->tipo_campo[$i];
+            $ttrfield->active = $request->campo_activo[$i];
+            //guardar en field
+            $ttrfield->save();
+            $campos .= $ttrfield->idttrfieldsf. ",";
+            //guardar en config field
+            $ttrconfigField = new TtrconfigField();
+            if(isset($request->fieldid[$i]))
+            {
+                $ttrconfigField = TtrconfigField::where('ttrfield_id','=',$request->fieldid[$i])->first();
+            }
+            $ttrconfigField->ttrfield_id = $ttrfield->idttrfieldsf;
+            $ttrconfigField->required = $request->campo_requerido[$i];
+            $ttrconfigField->save();
+            //proceso para guardar en values del campo
+            //los valores asociados al campo
+            //array que guarda los valores del campo asociados a un campo
+            $valores_formulario_campo = array();
+            $valores_formulario_campo_id = array();
+            $eliminar_valores_campo = "";
+            $cantidad_valores_del_campo = count($valores_formulario_campo);
+            $bd = "";
+            while( $cantidad_valores_del_campo == 0 )
+            {
+                //un ejemplo es que se puede tener campo1 y campo 3. Se valida para que no coja el campo2 porque no existe. No obtiene la columna del campo 2
+                $valores_formulario_campo = array_column($request->valores_campo, ($acumulador));
+                $valores_formulario_campo_id = array_column($request->valores_id, ($acumulador));
+                $cantidad_valores_del_campo = count($valores_formulario_campo);
+                $acumulador +=1;
+            }
+            //validar que el valor pertenezca al campo
+            
+            for ($i2=0; $i2 <count($valores_formulario_campo) ; $i2++) 
+            {
+
+                $ttrvalue = new Ttrvalue();
+                if(isset($valores_formulario_campo_id[$i2]))
+                {
+                    
+                    $ttrvalue = Ttrvalue::where('idttrvalues','=',$valores_formulario_campo_id[$i2])                  
+                    ->first();
+
+                }
+                $ttrvalue->idttrfieldsf = $ttrfield->idttrfieldsf;
+                $ttrvalue->value = $valores_formulario_campo[$i2];
+                $ttrvalue->active = 1;
+                $ttrvalue->save();
+                $eliminar_valores_campo .=  $ttrvalue->idttrvalues.",";
+            }
+
+            
+            $eliminar_valores_campo = substr($eliminar_valores_campo, 0, -1); 
+            $eliminar_valores_campo = explode(",", $eliminar_valores_campo);
+            $ttrvalues = Ttrvalue::where('idttrfieldsf','=',$ttrfield->idttrfieldsf)->get();
+            //diferencia de arrays. No es resta
+
+            foreach ($ttrvalues as $ttrvalue) {
+                $buscar = in_array($ttrvalue->idttrvalues,$eliminar_valores_campo);
+                 //si no esta se elimina
+                if(!$buscar)
+                {
+                    $ttrvalue->delete();
+                }
+               
+            }
+           
+            //$ttrvalue->delete();  
+
+        }
+
+        $campos = substr($campos, 0, -1); 
+        $campos = explode(",", $campos);
+        $ttrfields = Ttrfield::where('ttrform_id','=',$formulario->idttrform)->get();
+        foreach ($ttrfields as $ttrfield) 
+        {
+                $buscar = in_array($ttrfield->idttrfieldsf,$campos);
+                 //si no esta se elimina
+                if(!$buscar)
+                {
+                    $ttrfield->active = 0;
+                    $ttrfield->save();
+                }
+               
+        }
+
+
+         echo "Guardado";
     }
 
     /**
