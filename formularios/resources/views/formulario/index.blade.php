@@ -27,8 +27,9 @@
 						<td>@if ( $formulario->active == 1) Activo @else Inactivo @endif</td>
 						<td>{{ $formulario->smbdEtlExtract_cedula }}</td>
 						<td>
-							<a class="btn btn-warning" href="{{ url('formularios/'.$formulario->idttrform.'/edit') }}">Editar</a>
-							<a class="btn btn-danger" href="{{ url('formularios/'.$formulario->idttrform) }}">Desactivar</a>
+							<a class="btn btn-info" href="{{ url('formularios/'.$formulario->idttrform.'/edit') }}">Editar</a>
+							<a class="btn btn-warning" href="{{ url('formularios/'.$formulario->idttrform) }}">Desactivar</a>
+							<a class="btn btn-danger" href="{{ url('formularios/'.$formulario->idttrform) }}">Eliminar</a>
 						</td>
 					</tr>
 					@endforeach

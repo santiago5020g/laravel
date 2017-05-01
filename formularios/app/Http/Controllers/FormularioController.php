@@ -28,8 +28,7 @@ class FormularioController extends Controller
             return redirect('ingreso');
         }
 
-
-        $formularios = Ttrform::all();
+        $formularios = Ttrform::orderBy('idttrform', 'DESC')->get();
         return view("formulario.index",array('formularios'=>$formularios));
     }
 
@@ -158,7 +157,8 @@ class FormularioController extends Controller
      */
     public function show($id)
     {
-
+        $formulario = Ttrform::where('idttrform','=',$id)->first();
+        return view('formulario.delete',array('formulario'=>$formulario));
     }
 
     /**
@@ -169,6 +169,12 @@ class FormularioController extends Controller
      */
     public function edit($id)
     {
+        if((!Auth::viaRemember() && !Auth::check()) || (!Auth::User()->where('cargo' , 'ENTRENADOR COMERCIAL')->exists() && 
+        !Auth::User()->where('cargo' , 'ADMINISTRADDOR')->exists()))
+        {
+            return redirect('ingreso');
+        }
+
          $formulario = Ttrform::with(['fields' => function ($query) {
          $query->where('active', '=', '1');
           }])
@@ -314,8 +320,9 @@ class FormularioController extends Controller
                  //si no esta se elimina
                 if(!$buscar)
                 {
-                    $ttrfield->active = 0;
-                    $ttrfield->save();
+                    $ttrfield->config()->delete();
+                    $ttrfield->values()->delete();
+                    $ttrfield->delete();
                 }
                
         }
@@ -332,6 +339,37 @@ class FormularioController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $formulario = Ttrform::where('idttrform','=',$id)->first();
+        $fields = $formulario->fields()->get();
+        
+        foreach ($fields as $field) 
+        {
+            $field->config()->delete();
+            $field->values()->delete();
+            $field->delete();
+        }
+        $formulario->cargos()->detach($formulario->cargos);
+        $formulario->delete();
+        return redirect('formularios');
+
     }
+
+
+    public function formularios_usuario()
+    {
+        if((!Auth::viaRemember() && !Auth::check()) || (!Auth::User()->where('cargo' , 'ENTRENADOR COMERCIAL')->exists() && 
+        !Auth::User()->where('cargo' , 'ADMINISTRADDOR')->exists()))
+        {
+            return redirect('ingreso');
+        }
+
+         $formularios = Ttrform::with(['fields' => function ($query) {
+         $query->where('active', '=', '1');
+          }])
+         ->where('active','=',1)
+         ->orderBy('idttrform', 'DESC')
+         ->get();  
+        return view('formulario.formularios_usuario',array('formularios'=>$formularios));
+    }
+
 }

@@ -42,7 +42,9 @@
 		</div>
 
 
-
+		<script type="text/javascript">
+			var numeral_campo_editar = 0;
+		</script>
 		<h2>Campos del formulario</h2>
 		<div id="campos">
 		  	<?php $i=0; ?>
@@ -99,6 +101,10 @@
 						</div>
 					</div>
 				</div>
+				<script type="text/javascript">
+				    //variable global. El campo esta en campo1 entonces es para que el proximo sea campo2 con el acumulador
+					var numeral_campo_editar = numeral_campo_editar +1;
+				</script>
 			@endforeach
 		</div>
 		
@@ -122,5 +128,5 @@
 
 
 @section('footer_scripts')
-<script src="{{ asset('js/form.js?v=4') }}"></script>
+<script src="{{ asset('js/form.js?v=5') }}"></script>
 @stop

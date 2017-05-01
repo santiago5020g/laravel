@@ -9,6 +9,11 @@
 </div>
 
 
+<div class="row">
+	<div class="col-md-12">
+		<a class="btn btn-info" href="{{ url('formularios') }}">Regresar</a>
+	</div>
+</div>
 
 <div class="col-md-2"></div>
 <div class="col-md-8"> 
@@ -106,5 +111,10 @@
 
 
 @section('footer_scripts')
-<script src="{{ asset('js/form.js?v=3') }}"></script>
+<script type="text/javascript">
+	//variable global. El campo esta en campo1 entonces es para que el proximo sea campo2 con el acumulador
+	var numeral_campo = 1;
+	var numeral_campo_editar = 0;
+</script>
+<script src="{{ asset('js/form.js?v=5') }}"></script>
 @stop
