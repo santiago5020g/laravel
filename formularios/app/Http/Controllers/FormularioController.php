@@ -363,6 +363,7 @@ class FormularioController extends Controller
             return redirect('ingreso');
         }
 
+
          $formularios = Ttrform::with(['fields' => function ($query) {
          $query->where('active', '=', '1');
           }])

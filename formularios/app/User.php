@@ -32,4 +32,22 @@ class User extends Authenticatable
     protected $primaryKey = 'cedula';
     public $timestamps = false;
 
+
+
+    public function cargos()
+    {
+        return $this->belongsToMany('App\Cargo','smbd_etl_extract_ttrcargo','cedula','idttrcargo');
+    }
+
+
+
+    public function formularios()
+    {
+        return $this->hasManyThrough(
+            'App\ttrform_ttrcargo', 'App\smbd_etl_extract_ttrcargo',
+            'cedula', 'idttrcargo', 'cedula'
+        );
+    }
+
+
 }
