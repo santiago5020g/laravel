@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 
 Route::get('formularios/formularios_usuario', 'FormularioController@formularios_usuario');
+Route::resource('empleado', 'EmpleadoController');
 Route::resource('formularios', 'FormularioController');
 Route::resource('/', 'InicioController');
 Route::post('autenticar', 'LogueoController@authenticate');

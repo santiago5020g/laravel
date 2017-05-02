@@ -69,7 +69,7 @@
                    @if(count(Auth::User()->formularios()->get()))
                       <li><a><i class="fa fa-desktop"></i>Panel usuario<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                          <li><a href="general_elements.html">formularios</a></li>
+                          <li><a href="{{ url('empleado') }}">formularios</a></li>
                         </ul>
                       </li>
                   @endif
