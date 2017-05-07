@@ -52,8 +52,6 @@ class ProductoController extends Controller
         $categorias = $request->categoria;
         //guardar en la tabla intermedia
         $producto->categorias()->attach($categorias);
-        //despues de guardar retorne a index
-        $productos = Producto::all();
         return redirect('productos');
     }
 

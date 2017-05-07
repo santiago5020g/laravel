@@ -25,4 +25,13 @@ class Ttrform extends Model
 
 
 
+    public function formularios_ve_usuario()
+    {
+        return $this->hasManyThrough(
+            'App\ttrform_ttrcargo', 'App\smbd_etl_extract_ttrcargo',
+            'cedula', 'idttrcargo', 'cedula'
+        );
+    }
+
+
 }
