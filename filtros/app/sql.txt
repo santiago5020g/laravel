@@ -1,0 +1,25 @@
+create table clientes
+(
+	idcliente int primary KEY AUTO_INCREMENT NOT NULL,
+    nombre varchar(35) not null,
+    telefono varchar(30) null
+
+);
+
+create table pagos
+(
+	idpago int primary KEY AUTO_INCREMENT NOT NULL,
+    nombre_pago varchar(35) not null,
+    idcliente int not null,
+    idestado int not null
+
+);
+
+CREATE TABLE estado_pagos
+(
+ 	idestado int primary KEY AUTO_INCREMENT NOT NULL,
+    nombre_pago varchar(30) not null
+);
+
+ALTER TABLE pagos ADD FOREIGN KEY(idcliente)  REFERENCES clientes(idcliente);
+ALTER TABLE pagos ADD FOREIGN KEY(idestado)  REFERENCES estado_pagos(idestado);
