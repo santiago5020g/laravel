@@ -21,3 +21,10 @@ Route::resource('productos', 'ProductoController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+Route::get('servicios', 'ServicioController@index');
+Route::get('servicios/create', 'ServicioController@create');
+Route::post('servicios', 'ServicioController@store');
+
+Route::get('servicios/asociar_pago', 'ServicioController@AddPaymentToService');
+Route::post('servicios/guardar_pago', 'ServicioController@SavePaymentToService');
