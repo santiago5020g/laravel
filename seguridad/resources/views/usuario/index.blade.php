@@ -4,10 +4,8 @@
 @section('content')
    
 
-@if((Auth::User()->roles()->where('nombre' , 'admin')->exists() || 
-        Auth::User()->roles()->where('nombre' , 'insertar')->exists()))
-<a href="{{ url('usuarios/create') }}">Crear Usuario</a>
-
+@if(auth()->user()->inRole('rol-crear;admin'))
+	<a href="{{ url('usuarios/create') }}">Crear Usuario</a>
 @endif
 
    <table>

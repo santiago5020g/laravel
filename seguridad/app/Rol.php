@@ -20,4 +20,26 @@ class Rol extends Model
      */
     public $timestamps = false;
 
+
+    public function usuarios()
+    {
+        return $this->belongsToMany('App\User','usuarios_roles','idusuario','idrol');
+    }
+
+    
+
+    public function hasAccess(array $permissions) : bool
+    {
+        foreach ($permissions as $permission) {
+            if ($this->hasPermission($permission))
+                return true;
+        }
+        return false;
+    }
+
+    private function hasPermission(string $permission) : bool
+    {
+        return $this->permissions[$permission] ?? false;
+    }
+
 }

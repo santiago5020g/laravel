@@ -20,6 +20,7 @@ Route::resource('productos', 'ProductoController');
 
 Auth::routes();
 
+Route::get('/excel', 'ExcelController@index');
 Route::get('/home', 'HomeController@index');
 
 Route::get('servicios', 'ServicioController@index');

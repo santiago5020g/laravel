@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Cliente;
+use App\Pago;
+use App\EstadoPago;
 
 class ClienteController extends Controller
 {
@@ -20,6 +22,20 @@ class ClienteController extends Controller
 
        return json_encode($clientes);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Show the form for creating a new resource.

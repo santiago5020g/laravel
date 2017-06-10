@@ -1,0 +1,23 @@
+Hola. Por favor ayuda con esto no lo encuentro ni en la documentacion ni en todos los foros de stackoverflow. He buscado demasiado esto. He buscado en espanol e ingles pero no consigo dar con esto.
+
+
+Aqui en git lo puedes descargar. Tiene la base de datos en app/filtros_laravel.sql
+
+https://github.com/santiago5020g/laravel/tree/master/filtros
+
+el problema esta en ClienteController. el metodo index. Tengo esto solo nada mas para mirar como me arroja los datos
+
+public function index()
+    {
+       $clientes = cliente::with('pagos.estado')->whereHas('pagos.estado', function ($query) {
+        $query->where('nombre_pago', '=', 'pagado');
+        })->get();
+
+       return json_encode($clientes);
+    }
+
+
+pero aqui me esta arrojando todos los estados de pago del cliente (pagado,pendiente, no valido). Ese whereHas no me funciona. Alguna ayuda? cual es la mejor forma? 
+La version de laravel es la 5.4.
+
+Ayuda por favor. Este problema me tiene bloqueado.?

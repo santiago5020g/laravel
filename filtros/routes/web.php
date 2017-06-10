@@ -15,5 +15,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
+Route::get('clientes2', 'ClienteController@clientePagos');
 Route::resource('clientes', 'ClienteController');

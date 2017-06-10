@@ -1,5 +1,6 @@
 <?php
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,7 +17,15 @@ Route::get('/', function () {
 });
 
 
-Route::resource('usuarios', 'UsuarioController');
+
+
+
+Route::get('usuarios', 'UsuarioController@index')->middleware('role:ver;insertar;admin');
+
+
+
+
+Route::get('usuarios/create', 'UsuarioController@create');
 Route::get('ingreso', 'LogueoController@index');
 Route::post('autenticar', 'LogueoController@authenticate');
 Route::get('cerrar_sesion', 'LogueoController@cerrar_sesion');

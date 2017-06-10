@@ -33,11 +33,56 @@ class User extends Authenticatable
     public $timestamps = false;
 
 
+
+
+
     public function roles()
     {
         return $this->belongsToMany('App\Rol','usuarios_roles','idusuario','idrol');
     }
 
+    /**
+     * Checks if User has access to $permissions.
+     */
+    public function hasAccess(array $permissions) : bool
+    {
+        // check if the permission is available in any role
+        foreach ($this->roles as $role) {
+            if($role->hasAccess($permissions)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the user belongs to role.'
+     *
+     * @param string roleSlug
+     * return boolean
+     */
+    public function inRole(string $roleSlug)
+    {
+
+
+         $roles = $roleSlug;
+         $rolesArray = explode(';',$roles);  
+         $roles = $this->roles()->whereIn('nombre', $rolesArray)->count() > 0;
+         return $roles;
+
+    }
+
+
+    public function hasRole($roles)
+    {
+        if (!is_array($roles)) {
+            $roles = [$roles];
+        }
+
+        $userGroupCodes = $this->groups->pluck('code');
+
+        return $userGroupCodes->intersect($roles)->count() > 0;
+    }
 
     
 

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Rol;
 use Illuminate\Support\Facades\Auth;
+use Gate;
+
 
 
 class UsuarioController extends Controller
@@ -17,13 +19,13 @@ class UsuarioController extends Controller
      */
     public function index()
     {
+        /*
+        if(Gate::denies('index-usuario')) {
+            echo "invalido por gate";
+            return;
+        }  
+        */ 
         
-       if((!Auth::viaRemember() && !Auth::check()) || (!Auth::User()->roles()->where('nombre' , 'admin')->exists() && 
-        !Auth::User()->roles()->where('nombre' , 'ver')->exists()))
-        {
-            return view('invalido');
-        }
-
         $usuarios = User::all();
         return view('usuario.index',['usuarios'=>$usuarios]);
     }
@@ -35,12 +37,8 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        if((!Auth::viaRemember() && !Auth::check()) || (!Auth::User()->roles()->where('nombre' , 'admin')->exists() && 
-        !Auth::User()->roles()->where('nombre' , 'insertar')->exists()))
-        {
-            return view('invalido');
-        }
-         $roles = Rol::all();
+         
+        $roles = Rol::all();
         return view('usuario.create',['roles'=>$roles]);
     }
 
