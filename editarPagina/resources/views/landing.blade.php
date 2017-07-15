@@ -4,7 +4,7 @@
         <title>Landing</title>
         <meta name="description" content="">
         <meta name="keywords" content="">
-        <meta charset="utf-8">
+        
         <meta name="author" content="Nayith">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
@@ -39,7 +39,7 @@
         <div class="page" id="top">
             
             <!-- Home Section -->
-            <section class="home-section bg-dark-alfa-70 parallax-2 fixed-height-small sep-movil" data-background="{{ asset('uploads/organization_'.$organization->id_organization.'/paralax1_idOrganization_'.$organization->id_organization.'.jpg') }}" id="home">
+            <section class="home-section bg-dark-alfa-70 parallax-2 fixed-height-small sep-movil" data-background="{{ asset('uploads/organization_'.$organization->id_organization.'/paralax1_idOrganization_'.$organization->id_organization.'.jpg') }}?V=4" id="home">
                 <div class="js-height-parent container">
                     
                     <!-- Hero Content -->
@@ -186,7 +186,6 @@
 <!-- Features Section -->
             <section class="page-section" id="beneficios">
                 <div class="container relative">
-                    
                     <h2 class="font-alt align-center mb-30 mb-sm-40 titulo-tops" id="tituloBeneficio" onclick="edition(this)">
                         <?php $titleBenefits = explode(" ", $organization->landing->benefits[0]["title"]); ?>
                         <?php $quantity = (round(count($titleBenefits)/2)); ?>
@@ -824,7 +823,8 @@
             $("#guardar").on('click',function(){
 
                 initialize();
-                prepare();   
+                //clearHtml();
+                prepare(); 
                 savePage(); 
                    
             });
@@ -869,6 +869,85 @@
 
             }
 
+            function clearHtml()
+            {
+                titulo1 = $.trim(titulo1.split("\n").join(""));
+                titulo1 = titulo1.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                titulo2 = $.trim(titulo2.split("\n").join(""));
+                titulo2 = titulo2.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                titulo3Grueso = $.trim(titulo3Grueso.split("\n").join(""));
+                titulo3Grueso = titulo3Grueso.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                titulo4 = $.trim(titulo4.split("\n").join(""));
+                titulo4 = titulo4.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                ingresar = $.trim(ingresar.split("\n").join(""));
+                ingresar = ingresar.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                olvido_contrasena = $.trim(olvido_contrasena.split("\n").join(""));
+                olvido_contrasena = olvido_contrasena.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                solicitar_cuenta = $.trim(solicitar_cuenta.split("\n").join(""));
+                solicitar_cuenta = solicitar_cuenta.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                programa_formacion = $.trim(programa_formacion.split("\n").join(""));
+                programa_formacion = programa_formacion.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                tituloParalax3 = $.trim(tituloParalax3.split("\n").join(""));
+                tituloParalax3 = tituloParalax3.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                descripcionParalax3 = $.trim(descripcionParalax3.split("\n").join(""));
+                descripcionParalax3 = descripcionParalax3.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                botonParalax3 = $.trim(botonParalax3.split("\n").join(""));
+                botonParalax3 = botonParalax3.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                tituloBeneficio = $.trim(tituloBeneficio.split("\n").join(""));
+                tituloBeneficio = tituloBeneficio.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                descripcionBeneficio = $.trim(descripcionBeneficio.split("\n").join(""));
+                descripcionBeneficio = descripcionBeneficio.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                tituloBeneficio1 = $.trim(tituloBeneficio1.split("\n").join(""));
+                tituloBeneficio1 = tituloBeneficio1.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                descripcionBeneficio1 = $.trim(descripcionBeneficio1.split("\n").join(""));
+                descripcionBeneficio1 = descripcionBeneficio1.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                tituloBeneficio2 = $.trim(tituloBeneficio2.split("\n").join(""));
+                tituloBeneficio2 = tituloBeneficio2.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                descripcionBeneficio2 = $.trim(descripcionBeneficio2.split("\n").join(""));
+                descripcionBeneficio2 = descripcionBeneficio2.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                tituloBeneficio3 = $.trim(tituloBeneficio3.split("\n").join(""));
+                tituloBeneficio3 = tituloBeneficio3.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                descripcionBeneficio3 = $.trim(descripcionBeneficio3.split("\n").join(""));
+                descripcionBeneficio3 = descripcionBeneficio3.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                tituloBeneficio4 = $.trim(tituloBeneficio4.split("\n").join(""));
+                tituloBeneficio4 = tituloBeneficio4.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                descripcionBeneficio4 = $.trim(descripcionBeneficio4.split("\n").join(""));
+                descripcionBeneficio4 = descripcionBeneficio4.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                tituloBeneficio5 = $.trim(tituloBeneficio5.split("\n").join(""));
+                tituloBeneficio5 = tituloBeneficio5.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                descripcionBeneficio5 = $.trim(descripcionBeneficio5.split("\n").join(""));
+                descripcionBeneficio5 = descripcionBeneficio5.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                tituloBeneficio6 = $.trim(tituloBeneficio6.split("\n").join(""));
+                tituloBeneficio6 = tituloBeneficio6.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+                descripcionBeneficio6 = $.trim(descripcionBeneficio6.split("\n").join(""));
+                descripcionBeneficio6 = descripcionBeneficio6.replace(/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g, '');
+
+            }
+
 
             function prepare()
             {
@@ -889,6 +968,7 @@
                  $.ajax({
                     url: 'landing/store',
                     method : "POST",
+                    cache: false,
                     processData: false,
                     contentType: false,
                     data: data,
@@ -900,7 +980,7 @@
                         if(info.status)
                         {
                             alert("Cambios guardados");
-                            //location.reload(true);
+                            location.reload(true);
                         }
                         else
                         {

@@ -105,9 +105,9 @@ class LandingController extends Controller
     
 
         //$file = $request->file('paralax1');
-        $info["data"] = $landing;
+        //$info["data"] = $landing;
         $info["status"] = $landing->configs()->saveMany($configsArray);
-        $info["benefitsArray"] = $landing->benefits()->saveMany($benefitsArray);
+        $info["benefitsArray"] = $benefitValues;
         $info["message"] = "Cambios guardados";
 
         return json_encode($info);
@@ -119,7 +119,8 @@ class LandingController extends Controller
         $string = str_replace('</b>', '', $string);
         $string = str_replace('<div>', '', $string);
         $string = str_replace('</div>', '', $string);
-        $string = preg_replace("[^A-Za-z0-9]", "", $string);
+        $string = str_replace('/([\ \t]+(?=[\ \t])|^\s+|\s+$)/g', '', $string);
+        $string = str_replace('\r\n', '', $string);
         return $string;
     }
 
